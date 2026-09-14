@@ -38,16 +38,16 @@ public class CategoryService {
 
     public  CategoryResponse update(Long id, CategoryRequest categoryRequest){
         try{
-            Category categoryId = categoryRepository.getReferenceById(id);
-            updateCategory(categoryId, categoryRequest);
-            categoryRepository.save(categoryId);
-            return new CategoryResponse(categoryId);
+            Category category = categoryRepository.getReferenceById(id);
+            updateCategory(category, categoryRequest);
+            categoryRepository.save(category);
+            return new CategoryResponse(category);
         }catch (EntityNotFoundException exception){
             throw new ResourceNotFound(id);
         }
     }
 
-    private void updateCategory(Category categoryId, CategoryRequest categoryRequest) {
-            categoryId.setName(categoryId.getName());
+    private void updateCategory(Category category, CategoryRequest categoryRequest) {
+            category.setName(categoryRequest.getName());
     }
 }
