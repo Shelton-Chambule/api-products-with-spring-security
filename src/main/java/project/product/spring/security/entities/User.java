@@ -1,6 +1,5 @@
 package project.product.spring.security.entities;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,15 +11,23 @@ import java.util.List;
 @Table(name = "tb_user")
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor
-@AllArgsConstructor
-@Setter
 @Getter
+@Setter
 public class User  implements UserDetails {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String login;
     private String password;
     private UserRole role;
+
+    public User(Long id, String login, String password, UserRole role) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.role = role;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
