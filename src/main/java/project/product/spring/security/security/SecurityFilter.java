@@ -1,4 +1,4 @@
-package project.product.spring.security.config;
+package project.product.spring.security.security;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

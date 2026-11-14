@@ -1,44 +1,47 @@
 package project.product.spring.security.controller;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.product.spring.security.dto.category.CategoryRequest;
 import project.product.spring.security.dto.category.CategoryResponse;
 import project.product.spring.security.services.CategoryService;
-import java.util.List;
 
 @RestController
 @RequestMapping("/category")
+@Slf4j
+@RequiredArgsConstructor
 public class CategoryController {
 
     private final CategoryService categoryService;
 
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
-
-    @PostMapping("/save")
+    @PostMapping("/createCategory")
     public ResponseEntity<CategoryResponse> createCategory(@RequestBody @Valid CategoryRequest categoryRequest) {
-        CategoryResponse product = categoryService.createCategory(categoryRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.createCategory(categoryRequest));
     }
 
-    @GetMapping("/find/all")
-    public  ResponseEntity<List<CategoryResponse>> findAll(){
-        List<CategoryResponse> categories = categoryService.findAll();
-        return ResponseEntity.ok().body(categories);
+    @GetMapping("/findAll")
+    public  ResponseEntity<Page<CategoryResponse>> getAllCategory(Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body( categoryService.findAll(pageable));
     }
 
     @GetMapping("/{categoryId}")
-    public  ResponseEntity<CategoryResponse> findById(@PathVariable Long categoryId){
-        CategoryResponse category = categoryService.findById(categoryId);
-        return ResponseEntity.ok().body(category);
+    public  ResponseEntity<CategoryResponse> getOneCategory(@PathVariable Long categoryId){
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.findById(categoryId));
     }
 
     @PutMapping("/{categoryId}")
-    public  ResponseEntity<CategoryResponse> update(@PathVariable  Long categoryId, @RequestBody @Valid CategoryRequest categoryRequest){
-        CategoryResponse category = categoryService.update(categoryId,categoryRequest);
-        return ResponseEntity.ok().body(category);
+    public  ResponseEntity<CategoryResponse> updateCategory(@PathVariable  Long categoryId, @RequestBody @Valid CategoryRequest categoryRequest){
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.update(categoryId,categoryRequest));
+    }
+
+    @DeleteMapping("/{categoryId}")
+    public ResponseEntity<CategoryResponse> deleteOneCategory(@PathVariable Long categoryId){
+        categoryService.deleteCategory(categoryId);
+        return ResponseEntity.noContent().build();
     }
 }

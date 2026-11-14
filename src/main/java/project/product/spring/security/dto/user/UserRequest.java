@@ -3,8 +3,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import project.product.spring.security.entities.User;
-import project.product.spring.security.entities.UserRole;
+import project.product.spring.security.entity.User;
+import project.product.spring.security.entity.UserRole;
 
 @NoArgsConstructor
 @Setter
@@ -16,6 +16,7 @@ public class UserRequest {
 
     @NotBlank(message = "Required filed")
     private String password;
+
     private UserRole role;
 
     public UserRequest(User user) {

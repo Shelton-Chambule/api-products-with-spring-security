@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import project.product.spring.security.entities.Product;
+import project.product.spring.security.entity.Product;
 
 @NoArgsConstructor
 @Setter

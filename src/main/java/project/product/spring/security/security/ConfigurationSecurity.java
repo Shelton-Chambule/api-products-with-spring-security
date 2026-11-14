@@ -1,4 +1,4 @@
-package project.product.spring.security.config;
+package project.product.spring.security.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

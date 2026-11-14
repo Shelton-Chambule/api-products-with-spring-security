@@ -1,9 +1,6 @@
-package project.product.spring.security.entities;
+package project.product.spring.security.entity;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "tb_product")

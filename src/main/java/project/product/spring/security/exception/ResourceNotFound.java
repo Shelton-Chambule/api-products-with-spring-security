@@ -1,4 +1,4 @@
-package project.product.spring.security.services.exeption;
+package project.product.spring.security.exception;
 public class ResourceNotFound extends RuntimeException {
 
     public ResourceNotFound(Object id) {

@@ -1,4 +1,4 @@
-package project.product.spring.security.entities;
+package project.product.spring.security.entity;
 public enum UserRole {
 
     ADMIN("admin"),
