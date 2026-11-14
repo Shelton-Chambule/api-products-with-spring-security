@@ -4,9 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import project.product.spring.security.services.exeption.LoginNotFound;
-import project.product.spring.security.services.exeption.ResourceNotFound;
-import project.product.spring.security.services.exeption.VerifyLoginException;
+
 import java.time.Instant;
 
 @ControllerAdvice
@@ -34,8 +32,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(standardError);
     }
 
-    @ExceptionHandler(VerifyLoginException.class)
-    public ResponseEntity<StandardError>  verifyLogin(VerifyLoginException verifyLoginException, HttpServletRequest request){
+    @ExceptionHandler(LoginAlreadyExistsException.class)
+    public ResponseEntity<StandardError>  verifyLogin(LoginAlreadyExistsException verifyLoginException, HttpServletRequest request){
         StandardError standardError = new StandardError();
         standardError.setError("conflict");
         standardError.setMessage(verifyLoginException.getMessage());

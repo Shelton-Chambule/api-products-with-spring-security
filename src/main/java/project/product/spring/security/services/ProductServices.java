@@ -3,11 +3,11 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import project.product.spring.security.dto.product.ProductRequest;
 import project.product.spring.security.dto.product.ProductResponse;
-import project.product.spring.security.entities.Category;
-import project.product.spring.security.entities.Product;
+import project.product.spring.security.entity.Category;
+import project.product.spring.security.entity.Product;
 import project.product.spring.security.repository.CategoryRepository;
 import project.product.spring.security.repository.ProductRepository;
-import project.product.spring.security.services.exeption.ResourceNotFound;
+import project.product.spring.security.exception.ResourceNotFound;
 import java.util.List;
 import java.util.stream.Collectors;
 

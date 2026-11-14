@@ -1,53 +1,60 @@
 package project.product.spring.security.services;
+
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import project.product.spring.security.dto.category.CategoryRequest;
 import project.product.spring.security.dto.category.CategoryResponse;
-import project.product.spring.security.entities.Category;
+import project.product.spring.security.entity.Category;
+import project.product.spring.security.mapper.CategoryMapper;
 import project.product.spring.security.repository.CategoryRepository;
-import project.product.spring.security.services.exeption.ResourceNotFound;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import project.product.spring.security.exception.ResourceNotFound;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final CategoryMapper mapper;
 
-    public CategoryService(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
+    public CategoryResponse createCategory(CategoryRequest categoryRequest) {
+        return mapper.toResponse(categoryRepository.save(mapper.toEntity(categoryRequest)));
     }
 
-    public CategoryResponse createCategory(CategoryRequest categoryRequest){
-        Category category = new Category();
-        category.setName(categoryRequest.getName());
-        categoryRepository.save(category);
-        return new CategoryResponse(category);
+    public Page<CategoryResponse> findAll(Pageable pageable) {
+        Page<Category> categories = categoryRepository.findAll(pageable);
+        return mapper.toResponse(categories);
     }
 
-    public List<CategoryResponse> findAll(){
-        List<Category> categories = categoryRepository.findAll();
-        return  categories.stream().map(CategoryResponse::new).collect(Collectors.toList());
+    public CategoryResponse findById(Long categoryId) {
+        return mapper.toResponse(categoryRepository.findById(categoryId).orElseThrow(() -> {
+            return new ResourceNotFound(categoryId);
+        }));
     }
 
-    public CategoryResponse findById(Long id){
-        Optional<Category> category = categoryRepository.findById(id);
-        return new CategoryResponse(category.orElseThrow(() -> new ResourceNotFound(id)));
+    @Transactional
+    public void deleteCategory(Long categoryId) {
+        if (!categoryRepository.findById(categoryId).isPresent()) throw new ResourceNotFound(categoryId);
+        categoryRepository.deleteById(categoryId);
     }
 
-    public  CategoryResponse update(Long id, CategoryRequest categoryRequest){
-        try{
+    public CategoryResponse update(Long id, CategoryRequest categoryRequest) {
+        try {
             Category categoryId = categoryRepository.getReferenceById(id);
             updateCategory(categoryId, categoryRequest);
             categoryRepository.save(categoryId);
             return new CategoryResponse(categoryId);
-        }catch (EntityNotFoundException exception){
+        } catch (EntityNotFoundException exception) {
             throw new ResourceNotFound(id);
         }
     }
 
     private void updateCategory(Category categoryId, CategoryRequest categoryRequest) {
-            categoryId.setName(categoryId.getName());
+        categoryId.setName(categoryId.getName());
     }
 }

@@ -2,7 +2,7 @@ package project.product.spring.security.dto.category;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import project.product.spring.security.entities.Category;
+import project.product.spring.security.entity.Category;
 
 @NoArgsConstructor
 @Setter
