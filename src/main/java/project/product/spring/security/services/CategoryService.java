@@ -50,11 +50,20 @@ public class CategoryService {
             categoryRepository.save(categoryId);
             return new CategoryResponse(categoryId);
         } catch (EntityNotFoundException exception) {
+    public  CategoryResponse update(Long id, CategoryRequest categoryRequest){
+        try{
+            Category category = categoryRepository.getReferenceById(id);
+            updateCategory(category, categoryRequest);
+            categoryRepository.save(category);
+            return new CategoryResponse(category);
+        }catch (EntityNotFoundException exception){
             throw new ResourceNotFound(id);
         }
     }
 
     private void updateCategory(Category categoryId, CategoryRequest categoryRequest) {
         categoryId.setName(categoryId.getName());
+    private void updateCategory(Category category, CategoryRequest categoryRequest) {
+            category.setName(categoryRequest.getName());
     }
 }
